@@ -1,0 +1,48 @@
+<Huawei>system-view
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]interface   GigabitEthernet0/0/0
+[Huawei-GigabitEthernet0/0/0]ip  address  192.168.1.1 24
+[Huawei-GigabitEthernet0/0/0]q
+[Huawei]undo info-center  enable
+Info: Information center is disabled.
+[Huawei-GigabitEthernet0/0/0]display   this
+#
+interface GigabitEthernet0/0/0
+ ip address 192.168.1.1 255.255.255.0
+#
+return
+[Huawei-GigabitEthernet0/0/0]display  ip  routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 4        Routes : 4        
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+    192.168.1.0/24  Direct  0    0           D   192.168.1.1     GigabitEthernet0
+/0/0
+    192.168.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+[Huawei-GigabitEthernet0/0/0]display   current-configuration 
+[Huawei-GigabitEthernet0/0/0]return
+<Huawei>
+<Huawei>save ?
+<Huawei>save HCNA.cfg
+Are you sure to save the configuration to flash:/HCNA.cfg?[Y/N]:y
+Now saving the current configuration to the slot 17.
+Save the configuration successfully.
+[Huawei]ping  192.168.1.2
+  PING 192.168.1.2: 56  data bytes, press CTRL_C to break
+    Reply from 192.168.1.2: bytes=56 Sequence=1 ttl=255 time=160 ms
+    Reply from 192.168.1.2: bytes=56 Sequence=2 ttl=255 time=20 ms
+    Reply from 192.168.1.2: bytes=56 Sequence=3 ttl=255 time=60 ms
+    Reply from 192.168.1.2: bytes=56 Sequence=4 ttl=255 time=50 ms
+    Reply from 192.168.1.2: bytes=56 Sequence=5 ttl=255 time=50 ms
+
+  --- 192.168.1.2 ping statistics ---
+    5 packet(s) transmitted
+    5 packet(s) received
+    0.00% packet loss
+    round-trip min/avg/max = 20/68/160 ms
