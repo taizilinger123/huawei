@@ -25,6 +25,33 @@ Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
     192.168.1.0/24  Direct  0    0           D   192.168.1.1     GigabitEthernet0
 /0/0
     192.168.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+[Huawei]display  ip  interface  brief
+*down: administratively down
+!down: FIB overload down
+^down: standby
+(l): loopback
+(s): spoofing
+(d): Dampening Suppressed
+The number of interface that is UP in Physical is 2
+The number of interface that is DOWN in Physical is 9
+The number of interface that is UP in Protocol is 2
+The number of interface that is DOWN in Protocol is 9
+
+Interface                         IP Address/Mask      Physical   Protocol  
+Ethernet0/0/0                     unassigned           down       down      
+Ethernet0/0/1                     unassigned           down       down      
+GigabitEthernet0/0/0              192.168.1.1/24       up         up        
+GigabitEthernet0/0/1              unassigned           down       down      
+GigabitEthernet0/0/2              unassigned           down       down      
+GigabitEthernet0/0/3              unassigned           down       down      
+NULL0                             unassigned           up         up(s)     
+Serial0/0/0                       unassigned           down       down      
+Serial0/0/1                       unassigned           down       down      
+Serial0/0/2                       unassigned           down       down      
+Serial0/0/3                       unassigned           down       down
+[Huawei]int  g0/0/0
+[Huawei-GigabitEthernet0/0/0]shutdown
+[Huawei-GigabitEthernet0/0/0]display ip interface brief      
 [Huawei-GigabitEthernet0/0/0]display   current-configuration 
 [Huawei-GigabitEthernet0/0/0]return
 <Huawei>
