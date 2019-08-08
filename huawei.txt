@@ -51,7 +51,9 @@ Serial0/0/2                       unassigned           down       down
 Serial0/0/3                       unassigned           down       down
 [Huawei]int  g0/0/0
 [Huawei-GigabitEthernet0/0/0]shutdown
-[Huawei-GigabitEthernet0/0/0]display ip interface brief      
+[Huawei-GigabitEthernet0/0/0]undo shutdown
+[Huawei-GigabitEthernet0/0/0]display ip interface brief  
+[Huawei-GigabitEthernet0/0/0]display interface brief         
 [Huawei-GigabitEthernet0/0/0]display   current-configuration 
 [Huawei-GigabitEthernet0/0/0]return
 <Huawei>
