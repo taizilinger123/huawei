@@ -58,6 +58,76 @@ user-interface vty 0 4
 user-interface vty 16 20
 #
 return
+##########################################################
+[R1-rip-1]dis  rip  1  route 
+ Route Flags : R - RIP
+               A - Aging, G - Garbage-collect
+ ----------------------------------------------------------------------------
+ Peer 12.1.1.2 on GigabitEthernet0/0/1
+      Destination/Mask        Nexthop     Cost   Tag     Flags   Sec
+         23.1.1.0/24          12.1.1.2      1    0        RA      17
+       172.16.1.0/24          12.1.1.2      2    0        RA      17
+ Peer 14.1.1.2 on GigabitEthernet0/0/2
+      Destination/Mask        Nexthop     Cost   Tag     Flags   Sec
+       172.16.1.0/24          14.1.1.2      2    0        RA      24
+         34.1.1.0/24          14.1.1.2      1    0        RA      24
+[R1-rip-1]dis  ip  rou	
+[R1-rip-1]dis  ip  routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 11       Routes : 12       
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+       12.1.1.0/24  Direct  0    0           D   12.1.1.1        GigabitEthernet0
+/0/1
+       12.1.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/1
+       14.1.1.0/24  Direct  0    0           D   14.1.1.1        GigabitEthernet0
+/0/2
+       14.1.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/2
+       23.1.1.0/24  RIP     100  1           D   12.1.1.2        GigabitEthernet0
+/0/1
+       34.1.1.0/24  RIP     100  1           D   14.1.1.2        GigabitEthernet0
+/0/2
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+     172.16.1.0/24  RIP     100  2           D   12.1.1.2        GigabitEthernet0
+/0/1
+                    RIP     100  2           D   14.1.1.2        GigabitEthernet0
+/0/2
+    192.168.1.0/24  Direct  0    0           D   192.168.1.1     GigabitEthernet0
+/0/0
+    192.168.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/0
+
+[R1-rip-1]dis  ip  int  brief
+*down: administratively down
+!down: FIB overload down
+^down: standby
+(l): loopback
+(s): spoofing
+(d): Dampening Suppressed
+The number of interface that is UP in Physical is 4
+The number of interface that is DOWN in Physical is 7
+The number of interface that is UP in Protocol is 4
+The number of interface that is DOWN in Protocol is 7
+
+Interface                         IP Address/Mask      Physical   Protocol  
+Ethernet0/0/0                     unassigned           down       down      
+Ethernet0/0/1                     unassigned           down       down      
+GigabitEthernet0/0/0              192.168.1.1/24       up         up        
+GigabitEthernet0/0/1              12.1.1.1/24          up         up        
+GigabitEthernet0/0/2              14.1.1.1/24          up         up        
+GigabitEthernet0/0/3              unassigned           down       down      
+NULL0                             unassigned           up         up(s)     
+Serial0/0/0                       unassigned           down       down      
+Serial0/0/1                       unassigned           down       down      
+Serial0/0/2                       unassigned           down       down      
+Serial0/0/3                       unassigned           down       down  
+####################################################################################
 
 <R2>dis  current-configuration 
 #
@@ -117,6 +187,74 @@ user-interface vty 0 4
 user-interface vty 16 20
 #
 return
+
+#################################################################
+<R2>dis  rip  1  rout	
+<R2>dis  rip  1  route 
+ Route Flags : R - RIP
+               A - Aging, G - Garbage-collect
+ ----------------------------------------------------------------------------
+ Peer 12.1.1.1 on GigabitEthernet0/0/0
+      Destination/Mask        Nexthop     Cost   Tag     Flags   Sec
+      192.168.1.0/24          12.1.1.1      1    0        RA      24
+         14.1.1.0/24          12.1.1.1      1    0        RA      24
+ Peer 23.1.1.2 on GigabitEthernet0/0/1
+      Destination/Mask        Nexthop     Cost   Tag     Flags   Sec
+       172.16.1.0/24          23.1.1.2      1    0        RA      17
+         34.1.1.0/24          23.1.1.2      1    0        RA      17
+<R2>dis  ip  rou	
+<R2>dis  ip  routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 10       Routes : 10       
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+       12.1.1.0/24  Direct  0    0           D   12.1.1.2        GigabitEthernet0
+/0/0
+       12.1.1.2/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/0
+       14.1.1.0/24  RIP     100  1           D   12.1.1.1        GigabitEthernet0
+/0/0
+       23.1.1.0/24  Direct  0    0           D   23.1.1.1        GigabitEthernet0
+/0/1
+       23.1.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/1
+       34.1.1.0/24  RIP     100  1           D   23.1.1.2        GigabitEthernet0
+/0/1
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+     172.16.1.0/24  RIP     100  1           D   23.1.1.2        GigabitEthernet0
+/0/1
+    192.168.1.0/24  RIP     100  1           D   12.1.1.1        GigabitEthernet0
+/0/0
+
+<R2>dis  ip  int  brief
+*down: administratively down
+!down: FIB overload down
+^down: standby
+(l): loopback
+(s): spoofing
+(d): Dampening Suppressed
+The number of interface that is UP in Physical is 3
+The number of interface that is DOWN in Physical is 8
+The number of interface that is UP in Protocol is 3
+The number of interface that is DOWN in Protocol is 8
+
+Interface                         IP Address/Mask      Physical   Protocol  
+Ethernet0/0/0                     unassigned           down       down      
+Ethernet0/0/1                     unassigned           down       down      
+GigabitEthernet0/0/0              12.1.1.2/24          up         up        
+GigabitEthernet0/0/1              23.1.1.1/24          up         up        
+GigabitEthernet0/0/2              unassigned           down       down      
+GigabitEthernet0/0/3              unassigned           down       down      
+NULL0                             unassigned           up         up(s)     
+Serial0/0/0                       unassigned           down       down      
+Serial0/0/1                       unassigned           down       down      
+Serial0/0/2                       unassigned           down       down      
+Serial0/0/3                       unassigned           down       down    
+#############################################################################
 
 [R3-rip-1]dis  current-configuration 
 #
@@ -179,6 +317,77 @@ user-interface vty 16 20
 #
 return
 
+###################################################################
+[R3-rip-1] dis  rip  1  route 
+ Route Flags : R - RIP
+               A - Aging, G - Garbage-collect
+ ----------------------------------------------------------------------------
+ Peer 23.1.1.1 on GigabitEthernet0/0/0
+      Destination/Mask        Nexthop     Cost   Tag     Flags   Sec
+         12.1.1.0/24          23.1.1.1      1    0        RA      14
+      192.168.1.0/24          23.1.1.1      2    0        RA      14
+ Peer 34.1.1.1 on GigabitEthernet0/0/2
+      Destination/Mask        Nexthop     Cost   Tag     Flags   Sec
+         14.1.1.0/24          34.1.1.1      1    0        RA      26
+      192.168.1.0/24          34.1.1.1      2    0        RA      26
+[R3-rip-1]dis  ip  rou	
+[R3-rip-1]dis  ip  routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 11       Routes : 12       
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+       12.1.1.0/24  RIP     100  1           D   23.1.1.1        GigabitEthernet0
+/0/0
+       14.1.1.0/24  RIP     100  1           D   34.1.1.1        GigabitEthernet0
+/0/2
+       23.1.1.0/24  Direct  0    0           D   23.1.1.2        GigabitEthernet0
+/0/0
+       23.1.1.2/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/0
+       34.1.1.0/24  Direct  0    0           D   34.1.1.2        GigabitEthernet0
+/0/2
+       34.1.1.2/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/2
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+     172.16.1.0/24  Direct  0    0           D   172.16.1.1      GigabitEthernet0
+/0/1
+     172.16.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/1
+    192.168.1.0/24  RIP     100  2           D   23.1.1.1        GigabitEthernet0
+/0/0
+                    RIP     100  2           D   34.1.1.1        GigabitEthernet0
+/0/2
+
+[R3-rip-1]dis  ip  int  brief
+*down: administratively down
+!down: FIB overload down
+^down: standby
+(l): loopback
+(s): spoofing
+(d): Dampening Suppressed
+The number of interface that is UP in Physical is 4
+The number of interface that is DOWN in Physical is 7
+The number of interface that is UP in Protocol is 4
+The number of interface that is DOWN in Protocol is 7
+
+Interface                         IP Address/Mask      Physical   Protocol  
+Ethernet0/0/0                     unassigned           down       down      
+Ethernet0/0/1                     unassigned           down       down      
+GigabitEthernet0/0/0              23.1.1.2/24          up         up        
+GigabitEthernet0/0/1              172.16.1.1/24        up         up        
+GigabitEthernet0/0/2              34.1.1.2/24          up         up        
+GigabitEthernet0/0/3              unassigned           down       down      
+NULL0                             unassigned           up         up(s)     
+Serial0/0/0                       unassigned           down       down      
+Serial0/0/1                       unassigned           down       down      
+Serial0/0/2                       unassigned           down       down      
+Serial0/0/3                       unassigned           down       down  
+##############################################################################
+
 <R4>dis   current-configuration 
 #
 sysname R4
@@ -237,3 +446,69 @@ user-interface vty 0 4
 user-interface vty 16 20
 #
 return
+
+#############################################################
+<R4>dis  rip  1  route 
+ Route Flags : R - RIP
+               A - Aging, G - Garbage-collect
+ ----------------------------------------------------------------------------
+ Peer 14.1.1.1 on GigabitEthernet0/0/0
+      Destination/Mask        Nexthop     Cost   Tag     Flags   Sec
+         12.1.1.0/24          14.1.1.1      1    0        RA      23
+      192.168.1.0/24          14.1.1.1      1    0        RA      23
+ Peer 34.1.1.2 on GigabitEthernet0/0/1
+      Destination/Mask        Nexthop     Cost   Tag     Flags   Sec
+       172.16.1.0/24          34.1.1.2      1    0        RA      17
+         23.1.1.0/24          34.1.1.2      1    0        RA      17
+<R4>dis  ip  rou	
+<R4>dis  ip  routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 10       Routes : 10       
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+       12.1.1.0/24  RIP     100  1           D   14.1.1.1        GigabitEthernet0
+/0/0
+       14.1.1.0/24  Direct  0    0           D   14.1.1.2        GigabitEthernet0
+/0/0
+       14.1.1.2/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/0
+       23.1.1.0/24  RIP     100  1           D   34.1.1.2        GigabitEthernet0
+/0/1
+       34.1.1.0/24  Direct  0    0           D   34.1.1.1        GigabitEthernet0
+/0/1
+       34.1.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/1
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+     172.16.1.0/24  RIP     100  1           D   34.1.1.2        GigabitEthernet0
+/0/1
+    192.168.1.0/24  RIP     100  1           D   14.1.1.1        GigabitEthernet0
+/0/0
+
+<R4>dis  ip  int  brief
+*down: administratively down
+!down: FIB overload down
+^down: standby
+(l): loopback
+(s): spoofing
+(d): Dampening Suppressed
+The number of interface that is UP in Physical is 3
+The number of interface that is DOWN in Physical is 8
+The number of interface that is UP in Protocol is 3
+The number of interface that is DOWN in Protocol is 8
+
+Interface                         IP Address/Mask      Physical   Protocol  
+Ethernet0/0/0                     unassigned           down       down      
+Ethernet0/0/1                     unassigned           down       down      
+GigabitEthernet0/0/0              14.1.1.2/24          up         up        
+GigabitEthernet0/0/1              34.1.1.1/24          up         up        
+GigabitEthernet0/0/2              unassigned           down       down      
+GigabitEthernet0/0/3              unassigned           down       down      
+NULL0                             unassigned           up         up(s)     
+Serial0/0/0                       unassigned           down       down      
+Serial0/0/1                       unassigned           down       down      
+Serial0/0/2                       unassigned           down       down      
+Serial0/0/3                       unassigned           down       down    
