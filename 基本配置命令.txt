@@ -100,3 +100,7 @@ Are you sure to save the configuration to flash:/HCNA-R1.cfg?[Y/N]:y
 Now saving the current configuration to the slot 17..
 Save the configuration successfully.
 [R1-rip-1]dis   rip  1  route 
+undo  summary ??????
+undo  rip  1 ????rip??
+?????
+<R1>reset  ip routing-table statistics protocol all  ??????? ????

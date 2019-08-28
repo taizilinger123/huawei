@@ -58,6 +58,102 @@ user-interface vty 0 4
 user-interface vty 16 20
 #
 return
+
+##########################################################
+[R1]dis  current-configuration 
+#
+sysname R1
+#
+undo info-center enable
+#
+aaa
+ authentication-scheme default
+ authorization-scheme default
+ accounting-scheme default
+ domain default
+ domain default_admin
+ local-user admin password cipher OOCM4m($F4ajUn1vMEIBNUw#
+ local-user admin service-type http
+#
+firewall zone Local
+ priority 16
+#
+interface Ethernet0/0/0
+#
+interface Ethernet0/0/1
+#
+interface Serial0/0/0
+ link-protocol ppp
+#
+interface Serial0/0/1
+ link-protocol ppp
+#
+interface Serial0/0/2
+ link-protocol ppp
+#
+interface Serial0/0/3
+ link-protocol ppp
+#
+interface GigabitEthernet0/0/0
+ ip address 192.168.1.1 255.255.255.0
+#
+interface GigabitEthernet0/0/1
+ ip address 12.1.1.1 255.255.255.0
+ rip metricout 5
+#
+interface GigabitEthernet0/0/2
+ ip address 14.1.1.1 255.255.255.0
+#
+interface GigabitEthernet0/0/3
+#
+wlan
+#
+interface NULL0
+#
+rip 1
+ version 2
+ network 12.0.0.0
+ network 14.0.0.0
+ network 192.168.1.0
+#
+user-interface con 0
+user-interface vty 0 4
+user-interface vty 16 20
+#
+return
+#############################################
+[R1] int  g0/0/1
+[R1-GigabitEthernet0/0/1]undo  rip  met	
+[R1-GigabitEthernet0/0/1]undo  rip  metricout ?
+  <cr>  
+
+[R1-GigabitEthernet0/0/1]undo  rip  metricout 5    ????????????rip?? ??????5
+    ^
+Error:Too many parameters found at '^' position.
+[R1-GigabitEthernet0/0/1]undo rip metricout 
+
+<R1>reset  rip  1 configuration 
+Warning: RIP configurations will be reset. Continue?[Y/N]y
+
+[R2]int  g0/0/0
+[R2-GigabitEthernet0/0/0]rip ?
+  authentication-mode  Authentication type
+  bfd                  Bidirectional Forwarding Detection
+  input                Enable/Disable receiving RIP packets
+  metricin             Assign a metric to be added to the metric of inbound
+                       route
+  metricout            Assign a metric to be added to the outbound route
+  output               Enable/Disable sending RIP packets
+  pkt-transmit         The RIP interpacket configurations
+  poison-reverse       Configure poison reverse
+  replay-protect       Configure replay-protect on interface
+  split-horizon        Configure split horizon
+  summary-address      Configure summary address on this interface
+  version              Specify RIP version
+
+[R2-GigabitEthernet0/0/0]rip me	
+[R2-GigabitEthernet0/0/0]rip met	
+[R2-GigabitEthernet0/0/0]rip metricin 5
 ##########################################################
 [R1-rip-1]dis  rip  1  route 
  Route Flags : R - RIP
