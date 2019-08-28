@@ -104,3 +104,12 @@ undo  summary ??????
 undo  rip  1 ????rip??
 ?????
 <R1>reset  ip routing-table statistics protocol all  ??????? ????
+
+[R1]int Loo	
+[R1]int LoopBack 1
+[R1-LoopBack1]ip add 192.168.1.1 32
+Error: The specified address conflicts with another address.
+[R1-LoopBack1]ip add 192.168.1.3 32
+Info: A similar IP subnet already exists. Please verify the current IP subnet des
+ign.
+[R1-LoopBack1]ip add 192.168.100.1 32
