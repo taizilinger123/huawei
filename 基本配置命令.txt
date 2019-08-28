@@ -99,3 +99,4 @@ ip route-static 192.168.2.0 255.255.255.0 14.1.1.4
 Are you sure to save the configuration to flash:/HCNA-R1.cfg?[Y/N]:y
 Now saving the current configuration to the slot 17..
 Save the configuration successfully.
+[R1-rip-1]dis   rip  1  route 
