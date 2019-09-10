@@ -1,0 +1,178 @@
+The device is running!
+
+<Huawei>
+<Huawei>undo info	
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]undo info-cen	
+[Huawei]undo info-center enable
+Info: Information center is disabled.
+[Huawei]sysname R1
+[R1]int g0/0/0
+[R1-GigabitEthernet0/0/0]ip add 192.168.1.1 24
+[R1-GigabitEthernet0/0/0]q
+[R1]int  g0/0/1
+[R1-GigabitEthernet0/0/1]ip add 10.1.1.1 24
+[R1-GigabitEthernet0/0/1]ping  10.1.1.4
+  PING 10.1.1.4: 56  data bytes, press CTRL_C to break
+    Reply from 10.1.1.4: bytes=56 Sequence=1 ttl=255 time=190 ms
+    Reply from 10.1.1.4: bytes=56 Sequence=2 ttl=255 time=40 ms
+    Reply from 10.1.1.4: bytes=56 Sequence=3 ttl=255 time=60 ms
+    Reply from 10.1.1.4: bytes=56 Sequence=4 ttl=255 time=40 ms
+    Reply from 10.1.1.4: bytes=56 Sequence=5 ttl=255 time=70 ms
+
+  --- 10.1.1.4 ping statistics ---
+    5 packet(s) transmitted
+    5 packet(s) received
+    0.00% packet loss
+    round-trip min/avg/max = 40/80/190 ms
+
+[R1-GigabitEthernet0/0/1]q
+[R1]route	
+[R1]router id 1.1.1.1
+[R1]undo router id  1.1.1.1
+                    ^
+Error:Too many parameters found at '^' position.
+[R1]undo router id
+[R1]ospf ?
+  INTEGER<1-65535>  Process ID
+  mib-binding       Mib-Binding a Process
+  router-id         OSPF Private router ID
+  valid-ttl-hops    Valid GTSM TTL hops
+  vpn-instance      VPN routing/forwarding Instance
+  <cr>              
+
+[R1]ospf 100 router-id 1.1.1.1
+[R1-ospf-100]area ?
+  INTEGER<0-4294967295>  OSPF area ID (Integer)
+  X.X.X.X                OSPF area ID (IP address)
+
+[R1-ospf-100]area 100
+[R1-ospf-100-area-0.0.0.100]network 10.1.1.0 0.0.0.255
+[R1-ospf-100-area-0.0.0.100]network 192.168.1.0 0.0.0.255
+[R1-ospf-100-area-0.0.0.100]q
+[R1-ospf-100]q
+[R1]display ospf peer brief
+
+	 OSPF Process 100 with Router ID 1.1.1.1
+		  Peer Statistic Information
+ ----------------------------------------------------------------------------
+ Area Id          Interface                        Neighbor id      State    
+ 0.0.0.100        GigabitEthernet0/0/1             2.2.2.2          Full        
+ 0.0.0.100        GigabitEthernet0/0/1             3.3.3.3          Full        
+ 0.0.0.100        GigabitEthernet0/0/1             4.4.4.4          Full        
+ ----------------------------------------------------------------------------
+[R1]display ospf peer
+
+	 OSPF Process 100 with Router ID 1.1.1.1
+		 Neighbors 
+
+ Area 0.0.0.100 interface 10.1.1.1(GigabitEthernet0/0/1)'s neighbors
+ Router ID: 2.2.2.2          Address: 10.1.1.2        
+   State: Full  Mode:Nbr is  Master  Priority: 1
+   DR: 10.1.1.1  BDR: 10.1.1.2  MTU: 0    
+   Dead timer due in 36  sec 
+   Retrans timer interval: 5 
+   Neighbor is up for 00:03:25     
+   Authentication Sequence: [ 0 ] 
+
+ Router ID: 3.3.3.3          Address: 10.1.1.3        
+   State: Full  Mode:Nbr is  Master  Priority: 1
+   DR: 10.1.1.1  BDR: 10.1.1.2  MTU: 0    
+   Dead timer due in 34  sec 
+   Retrans timer interval: 5 
+   Neighbor is up for 00:02:09     
+   Authentication Sequence: [ 0 ] 
+
+ Router ID: 4.4.4.4          Address: 10.1.1.4        
+   State: Full  Mode:Nbr is  Master  Priority: 1
+   DR: 10.1.1.1  BDR: 10.1.1.2  MTU: 0    
+   Dead timer due in 32  sec 
+   Retrans timer interval: 5 
+   Neighbor is up for 00:01:12     
+   Authentication Sequence: [ 0 ] 
+
+[R1] User interface con0 is available
+
+
+
+Please Press ENTER.
+
+<R1>sys
+Enter system view, return user view with Ctrl+Z.
+[R1]display ip routing-	
+[R1]display ip routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 7        Routes : 7        
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+       10.1.1.0/24  Direct  0    0           D   10.1.1.1        GigabitEthernet0
+/0/1
+       10.1.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/1
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+     172.16.1.0/24  OSPF    10   2           D   10.1.1.4        GigabitEthernet0
+/0/1
+    192.168.1.0/24  Direct  0    0           D   192.168.1.1     GigabitEthernet0
+/0/0
+    192.168.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/0
+
+[R1]
+
+
+The device is running!
+
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]undo info-center enable
+Info: Information center is disabled.
+[Huawei]sysname R2
+[R2]int  g0/0/0
+[R2-GigabitEthernet0/0/0]ip  add 10.1.1.2 24
+[R2-GigabitEthernet0/0/0]q
+[R2]ospf 200 rout	
+[R2]ospf 200 router-id 2.2.2.2
+[R2-ospf-200]area 100
+[R2-ospf-200-area-0.0.0.100]network 10.1.1.0 0.0.0.255
+[R2-ospf-200-area-0.0.0.100]q
+
+The device is running!
+
+<Huawei>
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]undo info-center enable
+Info: Information center is disabled.
+[Huawei]sysname R3
+[R3]int g0/0/0
+[R3-GigabitEthernet0/0/0]ip add 10.1.1.3 24
+[R3-GigabitEthernet0/0/0]q
+[R3]ospf 300 router-	
+[R3]ospf 300 router-id 3.3.3.3
+[R3-ospf-300]area 100
+[R3-ospf-300-area-0.0.0.100]network 10.1.1.0 0.0.0.255
+[R3-ospf-300-area-0.0.0.100]q
+
+
+The device is running!
+
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]undo info-center enable
+Info: Information center is disabled.
+[Huawei]sysname R4
+[R4]int  g0/0/1
+[R4-GigabitEthernet0/0/1]ip add  172.16.1.1 24
+[R4-GigabitEthernet0/0/1]int g0/0/0
+[R4-GigabitEthernet0/0/0]ip add  10.1.1.4  24 
+[R4-GigabitEthernet0/0/0]q
+[R4]ospf 400 router-i	
+[R4]ospf 400 router-id 4.4.4.4
+[R4-ospf-400]area 100 
+[R4-ospf-400-area-0.0.0.100]network 10.1.1.0 0.0.0.255
+[R4-ospf-400-area-0.0.0.100]network 172.16.1.0 0.0.0.255
