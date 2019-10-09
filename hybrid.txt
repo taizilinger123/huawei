@@ -1,0 +1,70 @@
+The device is running!
+
+<Huawei>
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]undo info-center enable
+Info: Information center is disabled.
+[Huawei]vlan batch 10 20 100
+Info: This operation may take a few seconds. Please wait for a moment...done.
+[Huawei]int g0/0/1	
+[Huawei-GigabitEthernet0/0/1]port link-type hybrid 	
+[Huawei-GigabitEthernet0/0/1]port hybrid pvid vlan 10
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]int  g0/0/2
+[Huawei-GigabitEthernet0/0/2]port link-type  hybrid 	
+[Huawei-GigabitEthernet0/0/2]port  hybrid pvid vlan 20 
+[Huawei-GigabitEthernet0/0/2]q
+[Huawei]int  g0/0/1
+[Huawei-GigabitEthernet0/0/1]port hybrid untagged vlan 10 100
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]int  g0/0/24
+[Huawei-GigabitEthernet0/0/24]port hybrid tagged vlan 10
+[Huawei-GigabitEthernet0/0/24]port hybrid tagged vlan 100
+[Huawei-GigabitEthernet0/0/24]q
+[Huawei]int g0/0/2
+[Huawei-GigabitEthernet0/0/2]port hybrid untagged vlan 20 100
+[Huawei-GigabitEthernet0/0/2]int g0/0/24
+[Huawei-GigabitEthernet0/0/24]port hybrid tagged vlan 20
+[Huawei-GigabitEthernet0/0/24]int g0/0/2
+[Huawei-GigabitEthernet0/0/2]dis this
+#
+interface GigabitEthernet0/0/2
+ port hybrid pvid vlan 20
+ port hybrid untagged vlan 20 100
+#
+return
+##################################################
+[Huawei-GigabitEthernet0/0/2]int g0/0/24
+[Huawei-GigabitEthernet0/0/24]port hybrid tagged vlan all
+########################################################
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]undo info-center enable
+[Huawei]vlan batch  10 20 100
+Info: This operation may take a few seconds. Please wait for a moment...done.
+[Huawei]int  g0/0/1
+[Huawei-GigabitEthernet0/0/1]port link-type hybrid 
+[Huawei-GigabitEthernet0/0/1]port hybrid pvid vlan  100
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]port hybrid untagged vlan 10 100
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]int  g0/0/24	
+[Huawei-GigabitEthernet0/0/24]port hybrid tagged vlan 10 100
+[Huawei-GigabitEthernet0/0/24]q
+[Huawei]int g0/0/24
+[Huawei-GigabitEthernet0/0/24]port hybrid tagged vlan 20 
+[Huawei-GigabitEthernet0/0/24]q
+[Huawei]int g0/0/1	
+[Huawei-GigabitEthernet0/0/1]port hybrid untagged vlan 20
+[Huawei-GigabitEthernet0/0/1]dis this
+#
+interface GigabitEthernet0/0/1
+ port hybrid pvid vlan 100
+ port hybrid untagged vlan 10 20 100
+#
+return
+#######################################################
+[Huawei-GigabitEthernet0/0/2]int g0/0/24
+[Huawei-GigabitEthernet0/0/24]port hybrid tagged vlan all
