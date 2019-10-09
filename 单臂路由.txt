@@ -1,0 +1,21 @@
+<Huawei>sys
+[Huawei]undo info-center enable
+[Huawei]vlan batch 10 20 100
+[Huawei]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]port link-type access
+[Huawei-GigabitEthernet0/0/1]port default vlan 10 
+[Huawei-GigabitEthernet0/0/1]int  g0/0/2
+[Huawei-GigabitEthernet0/0/2]port link-type access
+[Huawei-GigabitEthernet0/0/2]port default vlan 20
+[Huawei-GigabitEthernet0/0/2]int g0/0/3
+[Huawei-GigabitEthernet0/0/3]port link-type access
+[Huawei-GigabitEthernet0/0/3]port default vlan 100
+[Huawei-GigabitEthernet0/0/3]q
+[Huawei]int g0/0/24
+[Huawei-GigabitEthernet0/0/24]port link-type trunk 
+[Huawei-GigabitEthernet0/0/24]port trunk allow-pass vlan all
+##########################################################################
+<Huawei>sys
+[Huawei]undo info-center enable 
+[Huawei]int g0/0/0.10
+[Huawei-GigabitEthernet0/0/0.10]dot1q termination vid 10 
