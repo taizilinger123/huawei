@@ -1,0 +1,168 @@
+LSW1
+<Huawei>sys
+[Huawei]undo info-center enable
+[Huawei]vlan batch 10 20 100
+[Huawei]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]port link-type access
+[Huawei-GigabitEthernet0/0/1]port default vlan  10 
+[Huawei-GigabitEthernet0/0/1]int g0/0/2
+[Huawei-GigabitEthernet0/0/2]port link-type access
+[Huawei-GigabitEthernet0/0/2]port default vlan 20
+[Huawei-GigabitEthernet0/0/2]int g0/0/3
+[Huawei-GigabitEthernet0/0/3]port link-type access
+[Huawei-GigabitEthernet0/0/3]port default vlan 100
+[Huawei-GigabitEthernet0/0/3]q
+[Huawei]int Vlanif 10
+[Huawei-Vlanif10]ip add 10.1.1.1 24
+[Huawei-Vlanif10]int vlanif 20 
+[Huawei-Vlanif20]ip add 20.1.1.1 24
+[Huawei-Vlanif20]int vlanif 100
+[Huawei-Vlanif100]ip add 100.1.1.1 24
+[Huawei-Vlanif100]q
+[Huawei]display ip routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 8        Routes : 8        
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+       10.1.1.0/24  Direct  0    0           D   10.1.1.1        Vlanif10
+       10.1.1.1/32  Direct  0    0           D   127.0.0.1       Vlanif10
+       20.1.1.0/24  Direct  0    0           D   20.1.1.1        Vlanif20
+       20.1.1.1/32  Direct  0    0           D   127.0.0.1       Vlanif20
+      100.1.1.0/24  Direct  0    0           D   100.1.1.1       Vlanif100
+      100.1.1.1/32  Direct  0    0           D   127.0.0.1       Vlanif100
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+	  
+	  
+	  
+
+
+
+LSW1
+[Huawei]vlan 30
+[Huawei-vlan30]q	    
+[Huawei]clear configuration interface g0/0/24
+Warning: All configurations of the interface will be cleared, and its state will 
+be shutdown. Continue? [Y/N] :y
+Info: Total execute 1 command(s), 1 successful, 0 failed.
+[Huawei]int g0/0/24
+[Huawei-GigabitEthernet0/0/24]undo shutdown
+[Huawei-GigabitEthernet0/0/24]port link-type access
+[Huawei-GigabitEthernet0/0/24]port default vlan 30
+[Huawei-GigabitEthernet0/0/24]int vlan30
+[Huawei-Vlanif30]q
+[Huawei]int vlanif 30
+[Huawei-Vlanif30]ip add 192.168.1.1 24
+[Huawei-Vlanif30]q
+[Huawei]ip  route-static 0.0.0.0 0.0.0.0 192.168.1.2
+[Huawei]ping 200.1.1.200
+  PING 200.1.1.200: 56  data bytes, press CTRL_C to break
+    Reply from 200.1.1.200: bytes=56 Sequence=1 ttl=253 time=110 ms
+    Reply from 200.1.1.200: bytes=56 Sequence=2 ttl=253 time=60 ms
+    Reply from 200.1.1.200: bytes=56 Sequence=3 ttl=253 time=50 ms
+    Reply from 200.1.1.200: bytes=56 Sequence=4 ttl=253 time=60 ms
+    Reply from 200.1.1.200: bytes=56 Sequence=5 ttl=253 time=100 ms
+[Huawei]dis  ip  routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 11       Routes : 11       
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+        0.0.0.0/0   Static  60   0          RD   192.168.1.2     Vlanif30
+       10.1.1.0/24  Direct  0    0           D   10.1.1.1        Vlanif10
+       10.1.1.1/32  Direct  0    0           D   127.0.0.1       Vlanif10
+       20.1.1.0/24  Direct  0    0           D   20.1.1.1        Vlanif20
+       20.1.1.1/32  Direct  0    0           D   127.0.0.1       Vlanif20
+      100.1.1.0/24  Direct  0    0           D   100.1.1.1       Vlanif100
+      100.1.1.1/32  Direct  0    0           D   127.0.0.1       Vlanif100
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+    192.168.1.0/24  Direct  0    0           D   192.168.1.1     Vlanif30
+    192.168.1.1/32  Direct  0    0           D   127.0.0.1       Vlanif30
+
+
+
+R2
+<Huawei>sys
+[Huawei]undo info-center enable 
+[Huawei]undo interface g0/0/0.10
+[Huawei]undo interface g0/0/0.20
+[Huawei]undo interface g0/0/0.100
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]ip add 192.168.1.2 24
+[Huawei-GigabitEthernet0/0/0]q
+[Huawei]ping 192.168.1.1
+  PING 192.168.1.1: 56  data bytes, press CTRL_C to break
+    Reply from 192.168.1.1: bytes=56 Sequence=1 ttl=255 time=190 ms
+    Reply from 192.168.1.1: bytes=56 Sequence=2 ttl=255 time=30 ms
+    Reply from 192.168.1.1: bytes=56 Sequence=3 ttl=255 time=50 ms
+    Reply from 192.168.1.1: bytes=56 Sequence=4 ttl=255 time=50 ms
+    Reply from 192.168.1.1: bytes=56 Sequence=5 ttl=255 time=30 ms
+[Huawei]dis ip  routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 4        Routes : 4        
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+    192.168.1.0/24  Direct  0    0           D   192.168.1.2     GigabitEthernet0
+/0/0
+    192.168.1.2/32  Direct  0    0           D   127.0.0.1       GigabitEthernet0
+/0/0
+[Huawei]ip route-static 10.1.1.0 24 192.168.1.1
+[Huawei]ip route-static 20.1.1.0 24 192.168.1.1
+[Huawei]ip route-static 100.1.1.0 24 192.168.1.1
+[Huawei]ip route-static 0.0.0.0 0.0.0.0 150.1.1.2
+[Huawei]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]ip add 150.1.1.1 24
+[Huawei-GigabitEthernet0/0/1]dis ip int  br
+GigabitEthernet0/0/0              192.168.1.2/24       up         up        
+GigabitEthernet0/0/1              150.1.1.1/24         up         up   
+
+
+R3
+<Huawei>sys
+[Huawei]undo info-center enable
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]ip add 150.1.1.2 24
+[Huawei-GigabitEthernet0/0/0]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]ip add 200.1.1.1 24
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]ip route-static 0.0.0.0 0.0.0.0  150.1.1.1
+
+
+
+CLIENT1>ping 200.1.1.200
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
