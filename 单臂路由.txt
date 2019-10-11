@@ -19,3 +19,13 @@
 [Huawei]undo info-center enable 
 [Huawei]int g0/0/0.10
 [Huawei-GigabitEthernet0/0/0.10]dot1q termination vid 10 
+[Huawei-GigabitEthernet0/0/0.10]ip add 10.1.1.1 24
+[Huawei-GigabitEthernet0/0/0.10]arp broadcast enable
+[Huawei-GigabitEthernet0/0/0.10]int g0/0/0.20	
+[Huawei-GigabitEthernet0/0/0.20]dot1q termination vid 20
+[Huawei-GigabitEthernet0/0/0.20]ip add 20.1.1.1 24
+[Huawei-GigabitEthernet0/0/0.20]arp broadcast enable
+[Huawei-GigabitEthernet0/0/0.20]int  g0/0/0.100
+[Huawei-GigabitEthernet0/0/0.100]dot1q termination vid 100
+[Huawei-GigabitEthernet0/0/0.100]ip add 100.1.1.1 24
+[Huawei-GigabitEthernet0/0/0.100]arp broadcast enable
