@@ -29,3 +29,6 @@
 [Huawei-GigabitEthernet0/0/0.100]dot1q termination vid 100
 [Huawei-GigabitEthernet0/0/0.100]ip add 100.1.1.1 24
 [Huawei-GigabitEthernet0/0/0.100]arp broadcast enable
+ping 10.1.1.1
+ping 20.1.1.20
+ping 100.1.1.100

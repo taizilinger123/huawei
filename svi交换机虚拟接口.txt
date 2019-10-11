@@ -1,0 +1,40 @@
+<Huawei>sys
+[Huawei]undo info-center enable
+[Huawei]vlan batch 10 20 100
+[Huawei]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]port link-type access
+[Huawei-GigabitEthernet0/0/1]port default vlan  10 
+[Huawei-GigabitEthernet0/0/1]int g0/0/2
+[Huawei-GigabitEthernet0/0/2]port link-type access
+[Huawei-GigabitEthernet0/0/2]port default vlan 20
+[Huawei-GigabitEthernet0/0/2]int g0/0/3
+[Huawei-GigabitEthernet0/0/3]port link-type access
+[Huawei-GigabitEthernet0/0/3]port default vlan 100
+[Huawei-GigabitEthernet0/0/3]q
+[Huawei]int Vlanif 10
+[Huawei-Vlanif10]ip add 10.1.1.1 24
+[Huawei-Vlanif10]int vlanif 20 
+[Huawei-Vlanif20]ip add 20.1.1.1 24
+[Huawei-Vlanif20]int vlanif 100
+[Huawei-Vlanif100]ip add 100.1.1.1 24
+[Huawei-Vlanif100]q
+[Huawei]display ip routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 8        Routes : 8        
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+       10.1.1.0/24  Direct  0    0           D   10.1.1.1        Vlanif10
+       10.1.1.1/32  Direct  0    0           D   127.0.0.1       Vlanif10
+       20.1.1.0/24  Direct  0    0           D   20.1.1.1        Vlanif20
+       20.1.1.1/32  Direct  0    0           D   127.0.0.1       Vlanif20
+      100.1.1.0/24  Direct  0    0           D   100.1.1.1       Vlanif100
+      100.1.1.1/32  Direct  0    0           D   127.0.0.1       Vlanif100
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+ping 10.1.1.1
+ping 20.1.1.20
+ping 100.1.1.100
+
