@@ -15,3 +15,10 @@ STP需要进行手动配置，用来为二层链路，交换机之间进行防�
  MSTID  Port                        Role  STP State     Protection
    0    GigabitEthernet0/0/3        ROOT  FORWARDING      NONE
    0    GigabitEthernet0/0/4        ALTE  DISCARDING      NONE       //discarding阻塞端口
+[Huawei]dis stp instance 0 interface g0/0/1
+-------[CIST Global Info][Mode MSTP]-------
+CIST Bridge         :32768.4c1f-cc17-28a6                     ###根桥
+Config Times        :Hello 2s MaxAge 20s FwDly 15s MaxHop 20
+Active Times        :Hello 2s MaxAge 20s FwDly 15s MaxHop 20
+CIST Root/ERPC      :32768.4c1f-cc17-28a6 / 0                 ###根桥
+CIST RegRoot/IRPC   :32768.4c1f-cc17-28a6 / 0                 ###根桥
