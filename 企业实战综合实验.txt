@@ -1,0 +1,159 @@
+LSW1:
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]undo info	
+[Huawei]undo info-center enable
+Info: Information center is disabled.
+[Huawei]vlan batch 10 20 100
+Info: This operation may take a few seconds. Please wait for a moment...done.
+[Huawei]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]port link	
+[Huawei-GigabitEthernet0/0/1]port link-ty	
+[Huawei-GigabitEthernet0/0/1]port link-type access
+[Huawei-GigabitEthernet0/0/1]port def	
+[Huawei-GigabitEthernet0/0/1]port default vlan 10
+[Huawei-GigabitEthernet0/0/1]int g0/0/2
+[Huawei-GigabitEthernet0/0/2]port link-type access
+[Huawei-GigabitEthernet0/0/2]port defau	
+[Huawei-GigabitEthernet0/0/2]port default vlan 20
+[Huawei-GigabitEthernet0/0/2]int  g0/0/3
+[Huawei-GigabitEthernet0/0/3]port link-type access
+[Huawei-GigabitEthernet0/0/3]port default vlan 100
+[Huawei-GigabitEthernet0/0/3]
+[Huawei-GigabitEthernet0/0/3]int vlanif 10
+[Huawei-Vlanif10]ip add 10.1.1.1 24
+[Huawei-Vlanif10]int vlanif 20
+[Huawei-Vlanif20]ip add 20.1.1.1 24
+[Huawei-Vlanif20]int vlanif 100
+[Huawei-Vlanif100]ip add 100.1.1.1 24
+[Huawei-Vlanif100]dis current-configuration 
+[Huawei]undo interface vlan 10       #删除vlanif接口的交换机就是2层交换机
+Info: This operation may take a few seconds. Please wait for a moment...succeeded.
+[Huawei]undo interface vlan 20
+Info: This operation may take a few seconds. Please wait for a moment...succeeded.
+[Huawei]undo interface vlan 100
+Info: This operation may take a few seconds. Please wait for a moment...succeeded.
+[Huawei]dis current-configuration
+[Huawei]int g0/0/24
+[Huawei-GigabitEthernet0/0/24]port link-type trunk	
+[Huawei-GigabitEthernet0/0/24]port trunk allow-pass vlan all
+#####################################
+LSW2:
+<Huawei>sys
+[Huawei]undo info-center enable
+Info: Information center is disabled.
+[Huawei]vlan batch 10 20 30 100
+Info: This operation may take a few seconds. Please wait for a moment...done.
+[Huawei]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]port link-type access
+[Huawei-GigabitEthernet0/0/1]port default vlan 30
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]int vlan 10
+[Huawei-Vlanif10]ip add 10.1.1.1 24
+[Huawei-Vlanif10]int vlan 20
+[Huawei-Vlanif20]ip add 20.1.1.1 24
+[Huawei-Vlanif20]int vlan 30
+[Huawei-Vlanif30]ip add 192.168.1.1 24
+[Huawei-Vlanif30]int vlan 100
+[Huawei-Vlanif100]ip add 100.1.1.1 24
+[Huawei-Vlanif100]q
+[Huawei]dis ip int brief
+*down: administratively down
+^down: standby
+(l): loopback
+(s): spoofing
+The number of interface that is UP in Physical is 3
+The number of interface that is DOWN in Physical is 4
+The number of interface that is UP in Protocol is 2
+The number of interface that is DOWN in Protocol is 5
+
+Interface                         IP Address/Mask      Physical   Protocol  
+MEth0/0/1                         unassigned           down       down      
+NULL0                             unassigned           up         up(s)     
+Vlanif1                           unassigned           up         down      
+Vlanif10                          10.1.1.1/24          down       down      
+Vlanif20                          20.1.1.1/24          down       down      
+Vlanif30                          192.168.1.1/24       up         up        
+Vlanif100                         100.1.1.1/24         down       down      
+[Huawei]int g0/0/24
+[Huawei-GigabitEthernet0/0/24]port link-type trunk	
+[Huawei-GigabitEthernet0/0/24]port trunk allow-pass vlan all
+[Huawei-GigabitEthernet0/0/24]q
+[Huawei]dis ip int brief
+*down: administratively down
+^down: standby
+(l): loopback
+(s): spoofing
+The number of interface that is UP in Physical is 6
+The number of interface that is DOWN in Physical is 1
+The number of interface that is UP in Protocol is 5
+The number of interface that is DOWN in Protocol is 2
+
+Interface                         IP Address/Mask      Physical   Protocol  
+MEth0/0/1                         unassigned           down       down      
+NULL0                             unassigned           up         up(s)     
+Vlanif1                           unassigned           up         down      
+Vlanif10                          10.1.1.1/24          up         up        
+Vlanif20                          20.1.1.1/24          up         up        
+Vlanif30                          192.168.1.1/24       up         up        
+Vlanif100                         100.1.1.1/24         up         up     
+[Huawei]ping 192.168.1.2
+  PING 192.168.1.2: 56  data bytes, press CTRL_C to break
+    Reply from 192.168.1.2: bytes=56 Sequence=1 ttl=255 time=70 ms
+    Reply from 192.168.1.2: bytes=56 Sequence=2 ttl=255 time=40 ms
+    Reply from 192.168.1.2: bytes=56 Sequence=3 ttl=255 time=10 ms
+    Reply from 192.168.1.2: bytes=56 Sequence=4 ttl=255 time=50 ms
+    Reply from 192.168.1.2: bytes=56 Sequence=5 ttl=255 time=40 ms
+
+  --- 192.168.1.2 ping statistics ---
+    5 packet(s) transmitted
+    5 packet(s) received
+    0.00% packet loss
+    round-trip min/avg/max = 10/42/70 ms
+[Huawei]ip route-static 0.0.0.0 0.0.0.0 192.168.1.2
+###########################################################
+R1:
+<Huawei>sys
+[Huawei]undo info-center enable
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]ip add 192.168.1.2 24
+[Huawei-GigabitEthernet0/0/0]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]ip add 150.1.1.1 24
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]ip route-static  10.1.1.0 24 192.168.1.1
+[Huawei]ip route-static 20.1.1.0 24 192.168.1.1
+[Huawei]ip route-static 100.1.1.0 24 192.168.1.1
+[Huawei]ip route-static 0.0.0.0 0.0.0.0 150.1.1.2
+[Huawei]ping 192.168.1.1
+  PING 192.168.1.1: 56  data bytes, press CTRL_C to break
+    Reply from 192.168.1.1: bytes=56 Sequence=1 ttl=255 time=60 ms
+    Reply from 192.168.1.1: bytes=56 Sequence=2 ttl=255 time=50 ms
+    Reply from 192.168.1.1: bytes=56 Sequence=3 ttl=255 time=50 ms
+    Reply from 192.168.1.1: bytes=56 Sequence=4 ttl=255 time=30 ms
+    Reply from 192.168.1.1: bytes=56 Sequence=5 ttl=255 time=60 ms
+
+  --- 192.168.1.1 ping statistics ---
+    5 packet(s) transmitted
+    5 packet(s) received
+    0.00% packet loss
+    round-trip min/avg/max = 30/50/60 ms
+[Huawei]dis ip routing-table 
+[Huawei]ping 10.1.1.2
+[Huawei]ping 20.1.1.2
+[Huawei]ping 200.1.1.2
+###########################################################
+R2:
+<Huawei>sys
+[Huawei]undo info-center enable
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]ip add 150.1.1.2 24
+[Huawei-GigabitEthernet0/0/0]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]ip add 200.1.1.1 24
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]ip route-static 0.0.0.0 0.0.0.0 150.1.1.1
+########################################################
+PC1:
+ping 10.1.1.2
+ping 20.1.1.2
+ping 100.1.1.2
+
