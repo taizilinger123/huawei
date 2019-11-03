@@ -1,0 +1,17 @@
+思科默认开启的是stp---pvst --- stp
+华为默认开启的是mstp ---- 多实例生成树
+ARP broadcast enable
+
+二层交换机
+
+STP需要进行手动配置，用来为二层链路，交换机之间进行防环使用 链路冗余
+<Huawei>sys
+[Huawei]dis stp brief
+ MSTID  Port                        Role  STP State     Protection
+   0    GigabitEthernet0/0/1        ROOT  FORWARDING      NONE
+   0    GigabitEthernet0/0/4        DESI  FORWARDING      NONE
+[Huawei]dis stp instance 0 interface g0/0/1
+[Huawei]dis stp brief
+ MSTID  Port                        Role  STP State     Protection
+   0    GigabitEthernet0/0/3        ROOT  FORWARDING      NONE
+   0    GigabitEthernet0/0/4        ALTE  DISCARDING      NONE       //discarding阻塞端口
