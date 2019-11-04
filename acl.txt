@@ -8,6 +8,14 @@ R1:
 [Huawei-GigabitEthernet0/0/1]q
 [Huawei]ip route-static 172.16.1.2 32 12.1.1.2
 [Huawei]ip route-static 100.1.1.2 32  12.1.1.2
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]undo ip address
+[Huawei-GigabitEthernet0/0/2]int  g0/0/2
+[Huawei-GigabitEthernet0/0/2]ip add 192.168.0.100 24
+[Huawei-GigabitEthernet0/0/2]q
+[Huawei]q
+<Huawei>save
+
 R2:
 <Huawei>sys	
 [Huawei]undo info-center enable
