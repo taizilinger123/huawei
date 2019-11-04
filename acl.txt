@@ -1,0 +1,66 @@
+R1:
+<Huawei>sys
+[Huawei]undo info-center enable
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]ip add 192.168.1.1 24
+[Huawei-GigabitEthernet0/0/0]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]ip add 12.1.1.1 24
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]ip route-static 172.16.1.2 32 12.1.1.2
+[Huawei]ip route-static 100.1.1.2 32  12.1.1.2
+R2:
+<Huawei>sys	
+[Huawei]undo info-center enable
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]ip add 12.1.1.2 24
+[Huawei-GigabitEthernet0/0/0]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]ip add 23.1.1.1 24
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]ip route-static 192.168.1.2 32 12.1.1.1
+[Huawei]ip route-static 172.16.1.2 32 23.1.1.2
+[Huawei]acl 2000
+[Huawei-acl-basic-2000]rule deny source  192.168.1.2 0
+[Huawei-acl-basic-2000]q
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]traffic-filter inbound acl 2000
+[Huawei-GigabitEthernet0/0/0]q
+[Huawei]dis acl 2000
+Basic ACL 2000, 1 rule
+ACL's step is 5
+ rule 5 deny source 192.168.1.2 0 (0 times matched)
+
+[Huawei]acl 2000
+[Huawei-acl-basic-2000]rule permit source any
+[Huawei-acl-basic-2000]q
+[Huawei]dis acl 2000
+Basic ACL 2000, 2 rules
+ACL's step is 5
+ rule 5 deny source 192.168.1.2 0 (0 times matched)
+ rule 10 permit (0 times matched)
+[Huawei]acl 2000
+[Huawei-acl-basic-2000]rule 6 deny source 192.168.2.2 0
+[Huawei-acl-basic-2000]q
+[Huawei]dis acl 2000
+Basic ACL 2000, 3 rules
+ACL's step is 5
+ rule 5 deny source 192.168.1.2 0 (0 times matched)
+ rule 6 deny source 192.168.2.2 0 (0 times matched)
+ rule 10 permit (0 times matched)
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]undo traffic-filter inbound 
+[Huawei-GigabitEthernet0/0/0]q
+[Huawei]undo acl 2000
+[Huawei]dis acl 2000
+[Huawei]ip route-static 100.1.1.2 32 23.1.1.2
+R3:
+<Huawei>sys
+[Huawei]undo info-center enable
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]ip add 23.1.1.2 24
+[Huawei-GigabitEthernet0/0/0]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]ip add 172.16.1.1 24
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]ip route-static 192.168.1.2 32 23.1.1.1
+[Huawei]int g0/0/2
+[Huawei-GigabitEthernet0/0/2]ip add 100.1.1.1 24
+[Huawei-GigabitEthernet0/0/2]q
