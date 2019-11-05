@@ -15,6 +15,13 @@ R1:
 [Huawei-GigabitEthernet0/0/2]q
 [Huawei]q
 <Huawei>save
+[Huawei]ping -a 192.168.1.1 100.1.1.2
+  PING 100.1.1.2: 56  data bytes, press CTRL_C to break
+    Reply from 100.1.1.2: bytes=56 Sequence=1 ttl=253 time=40 ms
+    Reply from 100.1.1.2: bytes=56 Sequence=2 ttl=253 time=30 ms
+    Reply from 100.1.1.2: bytes=56 Sequence=3 ttl=253 time=20 ms
+    Reply from 100.1.1.2: bytes=56 Sequence=4 ttl=253 time=20 ms
+    Reply from 100.1.1.2: bytes=56 Sequence=5 ttl=253 time=10 ms
 
 R2:
 <Huawei>sys	
@@ -60,6 +67,7 @@ ACL's step is 5
 [Huawei]undo acl 2000
 [Huawei]dis acl 2000
 [Huawei]ip route-static 100.1.1.2 32 23.1.1.2
+[Huawei]ip route-static 192.168.1.0 24 12.1.1.1
 R3:
 <Huawei>sys
 [Huawei]undo info-center enable
@@ -72,3 +80,17 @@ R3:
 [Huawei]int g0/0/2
 [Huawei-GigabitEthernet0/0/2]ip add 100.1.1.1 24
 [Huawei-GigabitEthernet0/0/2]q
+[Huawei]undo  ip  route-static 192.168.1.2 32 23.1.1.1	
+[Huawei]ip  route-static  192.168.1.0 24  23.1.1.1
+基础acl:
+[Huawei]acl 2000
+[Huawei-acl-basic-2000]rule deny source  192.168.1.2 0
+[Huawei-acl-basic-2000]q
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]traffic-filter inbound acl 2000
+
+高级acl:
+[Huawei]acl 3000 
+[Huawei-acl-adv-3000]rule deny  tcp source 192.168.1.1 0 destination 100.1.1.2 0  destination-port  eq  www 
+//定义了拒绝从192.168.1.1到100.1.1.2的http(80)端口的数据访问
+不仅可以定义源地址 还可以定义目的地址以及所有不同的IP协议(基于不同的端口可以控制不同的应用数据)
