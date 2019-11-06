@@ -1,0 +1,46 @@
+AR1:
+<Huawei>sys
+[Huawei]sysname gw
+[gw]undo info-center enable
+[gw]int g0/0/0
+[gw-GigabitEthernet0/0/0]ip add 192.168.1.1 24
+[gw-GigabitEthernet0/0/0]int g0/0/1
+[gw-GigabitEthernet0/0/1]ip add 12.1.1.1 24
+[gw-GigabitEthernet0/0/1]q
+[gw]ip route-static 0.0.0.0 0.0.0.0 12.1.1.2
+[gw]acl 2000
+[gw-acl-basic-2000]rule permit source any 
+[gw-acl-basic-2000]q
+[gw]int g0/0/1
+[gw-GigabitEthernet0/0/1]nat outbound 2000
+AR2:
+<Huawei>sys
+[Huawei]undo info-center enable
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]ip add 12.1.1.2 24
+[Huawei-GigabitEthernet0/0/0]int g0/0/1
+[Huawei-GigabitEthernet0/0/1]ip add 100.1.1.1 24
+[Huawei-GigabitEthernet0/0/1]q
+[Huawei]nat static protocol tcp global  12.1.1.1 80 inside 192.168.1.20 80  
+[Huawei]nat static global 12.1.1.1  inside  192.168.1.20 
+[Huawei]dis nat mapping table all
+
+共享上网
+1、acl抓取需要转换的地址段
+acl 2000
+rule permit source 192.168.1.0 0.0.0.255
+
+2、进入外网口,实行地址转换
+int g0/0/1 
+nat outbound 2000
+//将所有符合acl2000的地址段从该接口出去的时候，都要进行NAT地址转换，转换成当前接口的IP地址
+
+端口映射：
+[Huawei]nat static protocol tcp global  12.1.1.1 80 inside 192.168.1.20 80  
+//创建一个NAT静态映射表项---将私网地址192.168.1.20的80端口映射成12.1.1.1的80端口
+
+地址转换:
+nat static global 12.1.1.1  inside  192.168.1.20 
+将192.168.1.20映射成12.1.1.1
+
+动态地址转换  1对多  创建地址池   -----  放了一个PPT NA+NP的 下载  网络地址转换  NA 自己补充一下
