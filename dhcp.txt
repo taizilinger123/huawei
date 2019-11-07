@@ -1,0 +1,24 @@
+1.通过DHCP地址池下发IP地址信息
+<Huawei>sys
+[Huawei]undo info-center enable
+[Huawei]dhcp enable
+[Huawei]ip pool DHCP
+[Huawei-ip-pool-DHCP]network 192.168.1.0 mask 255.255.255.0
+[Huawei-ip-pool-DHCP]gateway-list 192.168.1.1
+[Huawei-ip-pool-DHCP]dns-list 202.99.96.68 114.114.114.114
+[Huawei-ip-pool-DHCP]excluded-ip-address 192.168.1.250 192.168.1.254
+[Huawei-ip-pool-DHCP]q
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]ip add 192.168.1.1 24
+[Huawei-GigabitEthernet0/0/0]dhcp select global
+下发的地址是从网段可用主机地址的最后一位往下发250 所以从249开始发
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]undo dhcp select global
+[Huawei-GigabitEthernet0/0/0]q
+2.接口下的DHCP
+[Huawei]undo ip pool DHCP
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]ip add 192.168.1.1 24
+[Huawei-GigabitEthernet0/0/0]dhcp  select interface 
+[Huawei-GigabitEthernet0/0/0]dhcp server excluded-ip-address 192.168.1.100 192.168.1.254
+[Huawei-GigabitEthernet0/0/0]dhcp server  dns-list 8.8.8.8 114.114.114.114
