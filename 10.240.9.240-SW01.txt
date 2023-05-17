@@ -1,0 +1,364 @@
+[SHH-2F-SRVSW01]display    current-configuration 
+!Software Version V200R019C10SPC500
+#
+sysname SHH-2F-SRVSW01
+#
+vlan batch 9 to 14 16 to 17 200 to 201 230
+#
+stp bpdu-protection
+stp tc-protection
+#
+authentication-profile name default_authen_profile
+authentication-profile name dot1x_authen_profile
+authentication-profile name dot1xmac_authen_profile
+authentication-profile name mac_authen_profile
+authentication-profile name multi_authen_profile
+authentication-profile name portal_authen_profile
+#
+diffserv domain default
+#
+radius-server template default
+#
+ecc peer-public-key 10.240.9.254 encoding-type der
+ public-key-code begin
+    040193B2 5898AFCF 10FCA377 2C193E71 CF7AD46D A375A3F6 9D860EC1 2D31494E
+    30BA238E 1C8A9007 A584144C 506A529E F2D44136 963CE0EC FB01553C 4E775CF4
+    914BFB00 D070EDFC 7D890F00 4431BE81 3FD6AAB9 FF73EB17 DA7962F5 6EDA82E2
+    AAB242B4 087B4D2E 61F19CE0 7346F2E4 98961E7E 78CE5562 82C3C541 2A30A640
+    0CA288F5 04
+ public-key-code end
+peer-public-key end
+#
+ecc peer-public-key 10.240.9.240 encoding-type der
+ public-key-code begin
+    04002072 8F76E0DB 5041D98E 81BAAC57 BAB81DEC 2B0A4946 9ED99286 56EE2396
+    0F05F144 41EF6AC9 110A41EA 99BA636D 30B99C81 1C2AA767 F7B78F02 43ABA78E
+    DD048D01 72780EC2 2E00FDD8 0C085E30 054E6A76 9DB968D7 A1A23F14 45375EDC
+    51F90646 C803EC7D 73428AF9 D6BE8D8E 21B99AEA 7679D135 3FCA16A3 C7816E4D
+    2FAE777C 5E
+ public-key-code end
+peer-public-key end
+#
+pki realm default
+ certificate-check none
+#
+free-rule-template name default_free_rule
+#
+portal-access-profile name portal_access_profile
+#
+aaa
+ authentication-scheme default            
+  authentication-mode local
+ authentication-scheme radius
+  authentication-mode radius
+ authorization-scheme default
+  authorization-mode local
+ accounting-scheme default
+  accounting-mode none
+ local-aaa-user password policy administrator
+  password history record number 0
+  password expire 0
+ domain default
+  authentication-scheme radius
+  accounting-scheme default
+  radius-server default
+ domain default_admin
+  authentication-scheme default
+  accounting-scheme default
+ local-user admin password irreversible-cipher $1c$Gz3V:9+Y85$F`A<7AhT^,&VS.Fv.a5PeVVd0sljc/Gk!69Mda}U$
+ local-user admin privilege level 15
+ local-user admin service-type terminal ssh http
+#
+interface Vlanif1
+#
+interface Vlanif9                         
+ ip address 10.240.9.240 255.255.255.128
+#
+interface MEth0/0/1
+ ip address 192.168.1.253 255.255.255.0
+#
+interface GigabitEthernet0/0/1
+ port link-type access
+ port default vlan 16
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/2
+ port link-type access
+ port default vlan 17
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/3
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/4
+ port link-type access
+ port default vlan 12
+ stp edged-port enable                    
+#
+interface GigabitEthernet0/0/5
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/6
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/7
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/8
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/9
+ port link-type access
+ port default vlan 12                     
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/10
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/11
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/12
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/13
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/14
+ port link-type access                    
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/15
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/16
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/17
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/18
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/19           
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/20
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/21
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/22
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/23
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#                                         
+interface GigabitEthernet0/0/24
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/25
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/26
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/27
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/28
+ port link-type access
+ port default vlan 12
+ stp edged-port enable                    
+#
+interface GigabitEthernet0/0/29
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/30
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/31
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/32
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/33
+ port link-type access
+ port default vlan 12                     
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/34
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/35
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/36
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/37
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/38
+ port link-type access                    
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/39
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/40
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/41
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/42
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/43           
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/44
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/45
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/46
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#
+interface GigabitEthernet0/0/47
+ port link-type access
+ port default vlan 12
+ stp edged-port enable
+#                                         
+interface GigabitEthernet0/0/48
+ port link-type access
+ port default vlan 201
+ stp edged-port enable
+#
+interface XGigabitEthernet0/0/1
+#
+interface XGigabitEthernet0/0/2
+#
+interface XGigabitEthernet0/0/3
+#
+interface XGigabitEthernet0/0/4
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface NULL0
+#
+undo icmp name timestamp-request receive
+#
+ip route-static 0.0.0.0 0.0.0.0 10.240.9.254
+#
+stelnet server enable
+ssh user admin
+ssh user admin authentication-type password
+ssh user admin service-type stelnet
+ssh client first-time enable
+ssh client 10.240.9.240 assign ecc-key 10.240.9.240
+ssh client 10.240.9.254 assign ecc-key 10.240.9.254
+ssh server cipher aes256_ctr aes128_ctr
+ssh server hmac sha2_256
+ssh client cipher aes256_ctr aes128_ctr
+ssh client hmac sha2_256
+ssh server dh-exchange min-len 2048
+#
+user-interface con 0
+ authentication-mode aaa
+user-interface vty 0 4
+ authentication-mode aaa
+ user privilege level 15
+ protocol inbound all
+user-interface vty 16 20
+#
+dot1x-access-profile name dot1x_access_profile
+#
+mac-access-profile name mac_access_profile
+#
+ops
+#                                         
+return
+[SHH-2F-SRVSW01]

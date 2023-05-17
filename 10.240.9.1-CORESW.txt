@@ -1,0 +1,333 @@
+[SHH-CoreSW01]display   curr	
+[SHH-CoreSW01]display   current-configuration 
+!Software Version V200R019C00SPC500
+#
+sysname SHH-CoreSW01
+#
+vlan batch 9 to 14 16 to 17 200 to 201 230
+#
+authentication-profile name default_authen_profile
+authentication-profile name dot1x_authen_profile
+authentication-profile name dot1xmac_authen_profile
+authentication-profile name mac_authen_profile
+authentication-profile name multi_authen_profile
+authentication-profile name portal_authen_profile
+#
+assign resource-mode enhanced-arp slot 0
+#
+dhcp enable
+#
+diffserv domain default
+#
+radius-server template default
+#
+ecc peer-public-key 127.0.0.1 encoding-type der
+ public-key-code begin
+    040193B2 5898AFCF 10FCA377 2C193E71 CF7AD46D A375A3F6 9D860EC1 2D31494E
+    30BA238E 1C8A9007 A584144C 506A529E F2D44136 963CE0EC FB01553C 4E775CF4
+    914BFB00 D070EDFC 7D890F00 4431BE81 3FD6AAB9 FF73EB17 DA7962F5 6EDA82E2
+    AAB242B4 087B4D2E 61F19CE0 7346F2E4 98961E7E 78CE5562 82C3C541 2A30A640
+    0CA288F5 04
+ public-key-code end
+peer-public-key end
+#
+ecc peer-public-key 10.240.9.251 encoding-type der
+ public-key-code begin
+    0400D30D 208E94A0 AF578137 6DCFE160 08A84B56 2CFB9D69 46470B74 4F13F09C
+    4E28AD83 D559389B 5F39B7BA 200A9185 2209DF44 1B11B77B 1C1FB32B BCD5B956
+    8ADAAC01 BF62C2BD 875D7042 938E90EC BEEA0B15 12CB1EF6 3C1F1B34 72FA4E3B
+    C9BC8F3D 336BC823 14EA92E3 CFCA247B 9481F92A 9A457F39 0BCEE115 3F70C756
+    E5A04D60 C4
+ public-key-code end
+peer-public-key end
+#
+pki realm default
+ certificate-check none
+#
+acl number 3000
+ rule 10 deny ip source 10.240.14.0 0.0.0.255 destination 10.240.9.0 0.0.0.255
+ rule 15 deny ip source 10.240.14.0 0.0.0.255 destination 10.240.10.0 0.0.0.255
+ rule 20 deny ip source 10.240.14.0 0.0.0.255 destination 10.240.11.0 0.0.0.255
+ rule 25 deny ip source 10.240.14.0 0.0.0.255 destination 10.240.12.0 0.0.0.255
+ rule 30 deny ip source 10.240.14.0 0.0.0.255 destination 10.240.13.0 0.0.0.255
+ rule 35 deny ip source 10.240.14.0 0.0.0.255 destination 10.240.15.0 0.0.0.255
+ rule 40 deny ip source 10.240.14.0 0.0.0.255 destination 192.168.30.0 0.0.0.255
+acl number 3001
+ rule 10 deny ip source 192.168.30.0 0.0.0.255 destination 10.240.9.0 0.0.0.255
+ rule 15 deny ip source 192.168.30.0 0.0.0.255 destination 10.240.10.0 0.0.0.255
+ rule 20 deny ip source 192.168.30.0 0.0.0.255 destination 10.240.11.0 0.0.0.255
+ rule 25 deny ip source 192.168.30.0 0.0.0.255 destination 10.240.12.0 0.0.0.255
+ rule 30 deny ip source 192.168.30.0 0.0.0.255 destination 10.240.13.0 0.0.0.255
+ rule 35 deny ip source 192.168.30.0 0.0.0.255 destination 10.240.15.0 0.0.0.255
+ rule 40 deny ip source 192.168.30.0 0.0.0.255 destination 10.240.14.0 0.0.0.255
+#
+free-rule-template name default_free_rule
+#
+portal-access-profile name portal_access_profile
+#
+drop-profile default
+#
+vlan 10
+ description Client
+vlan 11
+ description WIFI-SIFI
+vlan 12
+ description static                       
+vlan 13
+ description Voice
+vlan 200
+ description AP_DHCP
+vlan 230
+ description GUSET-SIFI-Guest
+#
+aaa
+ authentication-scheme default
+  authentication-mode local
+ authentication-scheme radius
+  authentication-mode radius
+ authorization-scheme default
+  authorization-mode local
+ accounting-scheme default
+  accounting-mode none
+ domain default
+  authentication-scheme radius
+  accounting-scheme default
+  radius-server default
+ domain default_admin
+  authentication-scheme default
+  accounting-scheme default
+ local-user ston password irreversible-cipher $1c$H{l**gkp<Q$_UGgOXui'%TB7hE"`P!Ry(33/uZ)'#XNcs~-{-2'$
+ local-user ston privilege level 15
+ local-user ston service-type telnet ssh
+ local-user admin password irreversible-cipher $1c$IFL&3VY'r.$'$eM(\=p@9HLm]E3>m4QY^C)MxO|uEtFr_4%[o;L$
+ local-user admin privilege level 15
+ local-user admin service-type telnet terminal ssh
+ local-user huawei password irreversible-cipher $1c$7KZl<~]gY=$:9X+H8r..ShR^I$Md@/:ova2.D(u:,K*/_H]lhvT$
+ local-user huawei privilege level 15
+ local-user huawei service-type telnet terminal http
+#
+interface Vlanif1
+#
+interface Vlanif9
+ description Device MGT
+ ip address 10.240.9.254 255.255.255.128
+ dhcp select interface
+ dhcp server gateway-list 10.240.9.254
+ dhcp server dns-list 10.240.12.1
+#
+interface Vlanif10
+ description Wire-DHCP
+ ip address 10.240.10.254 255.255.255.0
+ dhcp select interface
+ dhcp server gateway-list 10.240.10.254
+ dhcp server dns-list 10.240.12.1         
+ dhcp server next-server 10.240.12.6
+ dhcp server option 66 ip-address 10.240.12.6
+ dhcp server option 67 ascii Boot\x64\wdsnbp.com
+#
+interface Vlanif11
+ description SIFI-DHCP
+ ip address 10.240.11.254 255.255.255.0
+ dhcp select interface
+ dhcp server gateway-list 10.240.11.254
+ dhcp server dns-list 10.240.12.1
+#
+interface Vlanif12
+ description Static
+ ip address 10.240.12.254 255.255.255.0
+#
+interface Vlanif13
+ description Voice-DHCP
+ ip address 10.240.13.254 255.255.255.0
+ dhcp select interface
+ dhcp server gateway-list 10.240.13.254
+ dhcp server dns-list 10.240.12.1
+#
+interface Vlanif14
+ ip address 10.240.14.254 255.255.255.0   
+ dhcp select interface
+ dhcp server gateway-list 10.240.14.254
+ dhcp server dns-list 114.114.114.114
+#
+interface Vlanif16
+ ip address 10.240.16.254 255.255.255.0
+#
+interface Vlanif17
+ ip address 10.240.17.254 255.255.255.0
+#
+interface Vlanif200
+ description AP-DHCP
+ ip address 10.240.9.33 255.255.255.224
+ dhcp select interface
+ dhcp server gateway-list 10.240.9.33
+ dhcp server dns-list 10.240.12.1
+#
+interface Vlanif201
+ description Server-MGT
+ ip address 10.240.9.65 255.255.255.224
+#
+interface Vlanif230
+ description SIFI-Guest
+ ip address 192.168.30.254 255.255.255.0  
+ dhcp select interface
+ dhcp server gateway-list 192.168.30.254
+ dhcp server dns-list 114.114.114.114
+#
+interface MEth0/0/1
+ ip address 192.168.1.253 255.255.255.0
+#
+interface Eth-Trunk1
+ description 1F-SW01
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/1
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/2
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/3
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#                                         
+interface XGigabitEthernet0/0/4
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/5
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/6
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/7
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/8
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/9
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#                                         
+interface XGigabitEthernet0/0/10
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/11
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/12
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/13
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/14
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/15
+ eth-trunk 1
+#
+interface XGigabitEthernet0/0/16          
+ eth-trunk 1
+#
+interface XGigabitEthernet0/0/17
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/18
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/19
+ description SHH-NAS01
+ port link-type trunk
+ port trunk pvid vlan 12
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/20
+ description SHH-VeritasBKP01
+ port link-type trunk
+ port trunk pvid vlan 12
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/21
+ port link-type trunk                     
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/22
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/23
+ port link-type trunk
+ port trunk allow-pass vlan 2 to 4094
+#
+interface XGigabitEthernet0/0/24
+ undo portswitch
+ description SANGFORAC-ET0
+ ip address 10.240.9.1 255.255.255.252
+#
+interface 40GE0/0/1
+#
+interface 40GE0/0/2
+#
+interface 40GE0/0/3
+#
+interface 40GE0/0/4
+#
+interface 40GE0/0/5                       
+#
+interface 40GE0/0/6
+#
+interface NULL0
+#
+ip route-static 0.0.0.0 0.0.0.0 10.240.9.2
+ip route-static 10.240.51.0 255.255.255.0 10.240.9.2
+ip route-static 10.240.57.0 255.255.255.0 10.240.9.2
+ip route-static 10.240.58.0 255.255.255.0 10.240.9.2
+#
+traffic-filter vlan 14 inbound acl 3000
+traffic-filter vlan 230 inbound acl 3001
+#
+stelnet server enable
+ssh user admin
+ssh user admin authentication-type password
+ssh user admin service-type stelnet
+ssh client first-time enable
+ssh client 10.240.9.251 assign ecc-key 10.240.9.251
+ssh client 127.0.0.1 assign ecc-key 127.0.0.1
+ssh server cipher aes256_ctr aes128_ctr
+ssh server hmac sha2_256
+ssh client cipher aes256_ctr aes128_ctr
+ssh client hmac sha2_256                  
+ssh server dh-exchange min-len 2048
+#
+user-interface con 0
+ authentication-mode aaa
+user-interface vty 0 4
+ authentication-mode aaa
+ user privilege level 15
+ protocol inbound all
+user-interface vty 16 20
+#
+dot1x-access-profile name dot1x_access_profile
+#
+mac-access-profile name mac_access_profile
+#
+ops
+#
+return
+[SHH-CoreSW01]   
